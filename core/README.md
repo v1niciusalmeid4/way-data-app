@@ -1,16 +1,30 @@
-# core
+# Core — Módulo Compartilhado (HTTP, Gates, Pagination, BLoC)
+Centraliza requisições HTTP, pagination, extensions/utilitários, env/config, gates (navegação/contratos) e BLoCs das features.
 
-A new Flutter project.
+# Objetivo
+Concentrar infraestrutura e contratos para reuso entre apps, manter regra de negócio e acoplamento baixo com a UI.
+Fornecer base de BLoC, HTTP e navegação por gates.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# Estrutura de pastas
+core/
+├─ lib/
+│  └─ app_way_data_core.dart        # export central do pacote
+├─ src/
+  ├─ app/                          # repos + datasources (chamadas à API)
+  │  ├─ <feature>/
+  │  │  ├─ domain (entities, repositories, usecases)
+  │  │  └─ data (repositories, models, datasources)
+  │  └─ ...
+  ├─ core/                         # infraestrutura e utilitários compartilhados
+  │  ├─ http/                      # client, interceptors, adapters
+  │  ├─ gates/                     # contratos/abstrações de navegação
+  │  ├─ pagination/                # modelos e helpers de paginação
+  │  ├─ extensions/                # extensões de acordo com a necessidade..
+  │  └─ env/                       # configuração de ambiente (dev/prd)
+  ├─ features/                     # somente os BLoCs de cada feature
+  │  ├─ <feature>/
+  │  │  ├─ <feature>_event.dart
+  │  │  │
+  │  │  └─ <feature>_bloc.dart
+  │  └─ ...
+  └─ gates/                        # portões concretos de navegação por tela

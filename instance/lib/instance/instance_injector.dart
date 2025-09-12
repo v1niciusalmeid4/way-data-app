@@ -11,6 +11,5 @@ class InstanceInjector extends DependencyInjector {
     CoreInjector().dependencies();
     AppInjector().dependencies();
     ComponentsInjector().dependencies();
-    ServicesInjector().dependencies();
   }
 }

@@ -18,6 +18,7 @@ class CustomScrollViewCharacter extends StatelessWidget {
           tag: character.id.toString(),
           url: character.image,
         ),
+
         SliverPadding(
           padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
           sliver: SliverList(

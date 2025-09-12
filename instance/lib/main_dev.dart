@@ -10,6 +10,6 @@ Future<void> main() async {
   return runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();
 
-    return runApp(RootApplication(envConfig: EnvConfigFactory.dev));
+    return runApp(RootApplication(envConfig: EnvConfigFactory.prd));
   }, (error, stackTrace) => log(error.toString(), stackTrace: stackTrace));
 }
