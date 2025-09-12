@@ -1,9 +1,9 @@
 import 'package:core/app_way_data_core.dart';
 
 class PersonDataSourceEndpoints {
-  static const String base = '/person';
+  static const String base = '/character';
 
-  static String findAll(String id) => '$base/farm/$id';
+  static String get findAll => base;
 }
 
 class PersonDataSourceImpl implements PersonDataSource {
@@ -13,9 +13,7 @@ class PersonDataSourceImpl implements PersonDataSource {
 
   @override
   Future<PersonEntity> findAll({required FindAllPersonParams params}) async {
-    final endpoint = PersonDataSourceEndpoints.findAll(
-      params.farmId.toString(),
-    );
+    final endpoint = PersonDataSourceEndpoints.findAll;
     final uri = Uri(path: endpoint, queryParameters: {});
 
     final request = await http.request<PersonEntity, PersonEntity>(

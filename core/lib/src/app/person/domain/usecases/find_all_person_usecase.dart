@@ -15,10 +15,4 @@ class FindAllPersonUseCase
   }
 }
 
-class FindAllPersonParams {
-  final int farmId;
-  final DateTime? since;
-  final DateTime? until;
-
-  FindAllPersonParams({required this.farmId, this.since, this.until});
-}
+class FindAllPersonParams {}
