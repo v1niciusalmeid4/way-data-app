@@ -18,7 +18,10 @@ dependencies:
   # Http
   http: ^0.13.5
 
-  #
+  # Helpful library
+  dartz: ^0.10.1
+
+  # Cupertino Icons
   cupertino_icons: ^1.0.8
 
   # Network cached image

@@ -15,6 +15,7 @@ abstract class IContainerInjector {
   void put<S extends Object>(S dependency, {String? tag});
 
   void putAsync<S extends Object>(
+    // ignore: avoid_types_as_parameter_names
     Future<S> Function<S>() builder, {
     String? tag,
   });
@@ -76,6 +77,7 @@ class ContainerInjector implements IContainerInjector {
 
   @override
   void putAsync<S extends Object>(
+    // ignore: avoid_types_as_parameter_names
     Future<S> Function<S>() builder, {
     String? tag,
   }) {

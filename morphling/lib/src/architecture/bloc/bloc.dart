@@ -8,6 +8,7 @@ import 'package:morphling/morphling.dart';
 /// Utilizar a função [@onReady] para fazer requisições iniciais e inicializar
 /// campos e dados.
 
+// ignore: avoid_types_as_parameter_names
 abstract class IBloC<Event, ScreenState> with HudMixin {
   late NavigatorService _navigatorService;
 
