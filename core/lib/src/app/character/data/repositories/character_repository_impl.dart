@@ -16,4 +16,15 @@ class CharacterRepositoryImpl implements CharacterRepository {
       return Left(RemoteFailure(message: ex.message));
     }
   }
+
+  @override
+  Future<Either<Failure, CharacterEntity>> findById({
+    required FindCharacterByIdParams params,
+  }) async {
+    try {
+      return Right(await dataSource.findById(params: params));
+    } on RemoteException catch (ex) {
+      return Left(RemoteFailure(message: ex.message));
+    }
+  }
 }

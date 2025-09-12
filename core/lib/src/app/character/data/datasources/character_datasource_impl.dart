@@ -4,6 +4,7 @@ class CharacterDataSourceEndpoints {
   static const String base = '/character';
 
   static String get findAll => base;
+  static String findById(String id) => '$base/$id';
 }
 
 class CharacterDataSourceImpl implements CharacterDataSource {
@@ -42,6 +43,23 @@ class CharacterDataSourceImpl implements CharacterDataSource {
       final characters = request.data['results'] as List;
 
       return characters.map(CharacterModel.fromMap).toList();
+    }
+
+    throw RemoteException(message: request.status.message);
+  }
+
+  @override
+  Future<CharacterEntity> findById({
+    required FindCharacterByIdParams params,
+  }) async {
+    final request = await http.request<CharacterEntity, CharacterEntity>(
+      CharacterDataSourceEndpoints.findById(params.id),
+      method: HttpMethod.get,
+      decoder: CharacterModel.fromMap,
+    );
+
+    if (request.isSuccess) {
+      return request.data!;
     }
 
     throw RemoteException(message: request.status.message);

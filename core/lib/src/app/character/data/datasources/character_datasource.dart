@@ -4,4 +4,5 @@ abstract class CharacterDataSource {
   Future<List<CharacterEntity>> findAll({
     required FindAllCharacterParams params,
   });
+  Future<CharacterEntity> findById({required FindCharacterByIdParams params});
 }
