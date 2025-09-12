@@ -8,7 +8,7 @@ class ListCharacters extends StatelessWidget {
   final bool reachMax;
   final Function() onFetch;
   final Function() onPullRefresh;
-  final Function() onCharacterPressed;
+  final Function(int) onCharacterPressed;
 
   const ListCharacters({
     required this.characters,

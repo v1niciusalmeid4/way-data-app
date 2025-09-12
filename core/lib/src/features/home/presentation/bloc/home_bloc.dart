@@ -10,17 +10,18 @@ class HomeStableData {
 }
 
 class HomeBloc extends IBloC<HomeEvent, ScreenState> {
-  static const String route = '/';
+  static const String route = '/home';
 
-  HomeBloc({required this.findAllCharacterUseCase})
+  HomeBloc({required this.findAllCharacterUseCase, required this.characterGate})
     : super(initialState: Loading());
 
   // gates
+  final CharacterGate characterGate;
 
   // usecases
   final FindAllCharacterUseCase findAllCharacterUseCase;
 
-  //state variables
+  // state variables
   List<CharacterEntity> characters = [];
 
   late Pageable page;
@@ -43,13 +44,15 @@ class HomeBloc extends IBloC<HomeEvent, ScreenState> {
   @override
   void handleEvent(HomeEvent event) {
     if (event is HomeReadyEvent) {
-      _handleFetchCharacters(event);
+      _handleOnReady(event);
     } else if (event is HomeLoadMoreEvent) {
       _handleLoadMore(event);
+    } else if (event is HomeOpenCharacterEvent) {
+      _handleOpenCharacter(event);
     }
   }
 
-  Future<void> _handleFetchCharacters(HomeReadyEvent event) async {
+  Future<void> _handleOnReady(HomeReadyEvent event) async {
     page.reset();
 
     final request = await findAllCharacterUseCase.call(
@@ -99,5 +102,12 @@ class HomeBloc extends IBloC<HomeEvent, ScreenState> {
         ),
       );
     });
+  }
+
+  Future<void> _handleOpenCharacter(HomeOpenCharacterEvent event) async {
+    return characterGate.open(
+      params: CharacterParams(id: event.id),
+      type: GateType.to,
+    );
   }
 }

@@ -17,3 +17,9 @@ class HomeLoadMoreEvent extends HomeEvent {
 
   HomeLoadMoreEvent({this.query = '', this.gender, this.status});
 }
+
+class HomeOpenCharacterEvent extends HomeEvent {
+  final int id;
+
+  HomeOpenCharacterEvent({required this.id});
+}

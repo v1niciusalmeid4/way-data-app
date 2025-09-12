@@ -3,7 +3,7 @@ import 'package:core/app_way_data_core.dart';
 enum CharacterGender {
   female(key: 'Female', label: 'Mulher'),
   male(key: 'Male', label: 'Homem'),
-  geanderless(key: 'Geanderless', label: 'Sem genero'),
+  geanderless(key: 'Genderless', label: 'Sem genero'),
   unknow(key: 'unknow', label: 'Desconhecido');
 
   const CharacterGender({required this.key, required this.label});
@@ -17,6 +17,7 @@ enum CharacterGender {
     if (status == null) {
       return unknow;
     }
+
     return status;
   }
 }

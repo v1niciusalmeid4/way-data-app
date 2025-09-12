@@ -8,5 +8,7 @@ class CharacterInjector extends DependencyInjector {
     put<CharacterRepository>(CharacterRepositoryImpl(dataSource: find()));
 
     put<FindAllCharacterUseCase>(FindAllCharacterUseCase(repository: find()));
+
+    put<FindCharacterByIdUseCase>(FindCharacterByIdUseCase(repository: find()));
   }
 }

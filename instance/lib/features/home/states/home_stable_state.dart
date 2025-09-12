@@ -65,6 +65,8 @@ class _HomeStableStateState extends State<HomeStableState> {
               status: status,
               onStatusPressed: onStatusChanged,
             ),
+
+            Divider(),
             Expanded(
               child: ListCharacters(
                 characters: characters,
@@ -79,7 +81,8 @@ class _HomeStableStateState extends State<HomeStableState> {
                 onPullRefresh: () => bloc.dispatchEvent(
                   HomeReadyEvent(query: query, gender: gender, status: status),
                 ),
-                onCharacterPressed: () {},
+                onCharacterPressed: (id) =>
+                    bloc.dispatchEvent(HomeOpenCharacterEvent(id: id)),
               ),
             ),
           ],

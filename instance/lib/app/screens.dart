@@ -13,4 +13,9 @@ final screens = <Screen>[
     page: (context) => HomePage(),
     injector: HomeInjector(),
   ),
+  Screen(
+    name: CharacterBloc.route,
+    page: (context) => CharacterPage(),
+    injector: ICharacterInjector(),
+  ),
 ];

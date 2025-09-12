@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class CharacterCard extends StatelessWidget {
   final CharacterEntity character;
-  final Function() onCharacterPressed;
+  final Function(int id) onCharacterPressed;
 
   const CharacterCard({
     required this.character,
@@ -20,7 +20,7 @@ class CharacterCard extends StatelessWidget {
     );
 
     return InkWell(
-      onTap: onCharacterPressed,
+      onTap: () => onCharacterPressed(character.id),
       borderRadius: BorderRadius.circular(16),
       child: Card(
         margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 12),
@@ -73,11 +73,8 @@ class CharacterCard extends StatelessWidget {
                     spacing: 8,
                     runSpacing: 4,
                     children: [
-                      _StatusChip(
+                      StatusChip(
                         label: character.status.label,
-                        background: character.status
-                            .getUIData(context)
-                            .background,
                         foreground: character.status
                             .getUIData(context)
                             .foreground,
@@ -107,6 +104,12 @@ class CharacterCard extends StatelessWidget {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
+                  Text(
+                    character.location.name,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
+                  ),
                   const SizedBox(height: 2),
                 ],
               ),
@@ -118,36 +121,6 @@ class CharacterCard extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class _StatusChip extends StatelessWidget {
-  final String label;
-  final Color background;
-  final Color foreground;
-  final TextStyle? style;
-
-  const _StatusChip({
-    required this.label,
-    required this.background,
-    required this.foreground,
-    this.style,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: ShapeDecoration(
-        color: background,
-        shape: StadiumBorder(
-          side: BorderSide(color: foreground.withValues(alpha: .2)),
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-        child: Text(label, style: style),
       ),
     );
   }
