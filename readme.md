@@ -59,12 +59,11 @@ Instale dependências na ordem correta
 (A ordem importa porque os módulos se referenciam entre si.)
 Sempre exibir os detalhes
 
-cd morphling && flutter clean && flutter pub get && cd ..
-cd core      && flutter clean && flutter pub get && cd ..
-cd instance  && flutter clean && flutter pub get
-
-cd instance
-flutter run -t lib/main.dart
+* cd morphling && flutter clean && flutter pub get && cd ..
+* cd core  && flutter clean && flutter pub get && cd ..
+* cd instance  && flutter clean && flutter pub get
+  
+* flutter run -t lib/main.dart -> (dentro do instance)
 
 # Decisões técnicas
 * BLoC via Streams
