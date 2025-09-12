@@ -15,15 +15,22 @@ class CharacterDataSourceImpl implements CharacterDataSource {
   Future<List<CharacterEntity>> findAll({
     required FindAllCharacterParams params,
   }) async {
-    final request = await http.request(
-      CharacterDataSourceEndpoints.findAll,
-      method: HttpMethod.get,
-    );
+    final endpoint = CharacterDataSourceEndpoints.findAll;
+
+    final queryParameters = {
+      'page': params.page.toString(),
+      'size': params.size.toString(),
+      'name': params.query,
+    };
+
+    final uri = Uri(path: endpoint, queryParameters: queryParameters);
+
+    final request = await http.request(uri.toString(), method: HttpMethod.get);
 
     if (request.isSuccess) {
-      final Characters = request.data['results'] as List;
+      final characters = request.data['results'] as List;
 
-      return Characters.map(CharacterModel.fromMap).toList();
+      return characters.map(CharacterModel.fromMap).toList();
     }
 
     throw RemoteException(message: request.status.message);

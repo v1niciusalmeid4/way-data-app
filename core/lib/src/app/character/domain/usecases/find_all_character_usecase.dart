@@ -19,4 +19,14 @@ class FindAllCharacterUseCase
   }
 }
 
-class FindAllCharacterParams {}
+class FindAllCharacterParams {
+  final int page;
+  final int size;
+  final String query;
+
+  FindAllCharacterParams({
+    required this.page,
+    required this.size,
+    required this.query,
+  });
+}
