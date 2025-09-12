@@ -17,36 +17,32 @@ class RowCharacterGenderComponent extends StatelessWidget {
       scrollDirection: Axis.horizontal,
       child: Row(
         spacing: 5.0,
-        children:
-            CharacterGender.values
-                .map(
-                  (e) => GestureDetector(
-                    onTap: () => onGenderPressed(e),
-                    child: Chip(
-                      label: Text(e.label),
-                      backgroundColor: e == gender
-                          ? null
-                          : Theme.of(
-                              context,
-                            ).colorScheme.inversePrimary.withValues(alpha: .10),
-                    ),
-                  ),
-                )
-                .toList()
-              ..insert(
-                0,
-                GestureDetector(
-                  onTap: () => onGenderPressed(null),
-                  child: Chip(
-                    label: Text('Todos'),
-                    backgroundColor: gender == null
-                        ? null
-                        : Theme.of(
-                            context,
-                          ).colorScheme.inversePrimary.withValues(alpha: .10),
-                  ),
-                ),
+        children: [
+          GestureDetector(
+            onTap: () => onGenderPressed(null),
+            child: Chip(
+              label: Text('Todos'),
+              backgroundColor: gender == null
+                  ? null
+                  : Theme.of(
+                      context,
+                    ).colorScheme.inversePrimary.withValues(alpha: .10),
+            ),
+          ),
+          ...CharacterGender.values.map(
+            (e) => GestureDetector(
+              onTap: () => onGenderPressed(e),
+              child: Chip(
+                label: Text(e.label),
+                backgroundColor: e == gender
+                    ? null
+                    : Theme.of(
+                        context,
+                      ).colorScheme.inversePrimary.withValues(alpha: .10),
               ),
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -49,6 +49,8 @@ class HomeBloc extends IBloC<HomeEvent, ScreenState> {
       _handleLoadMore(event);
     } else if (event is HomeOpenCharacterEvent) {
       _handleOpenCharacter(event);
+    } else if (event is HomeReloadEvent) {
+      _handleReload(event);
     }
   }
 
@@ -65,7 +67,12 @@ class HomeBloc extends IBloC<HomeEvent, ScreenState> {
       ),
     );
 
-    request.fold(handleFailure, (characters) {
+    request.fold((r) => dispatchState(Error(message: r.message)), (characters) {
+      if (characters.isEmpty) {
+        dispatchState(Empty());
+        return;
+      }
+
       reachMax = characters.length < page.size;
       this.characters = characters;
 
@@ -92,7 +99,7 @@ class HomeBloc extends IBloC<HomeEvent, ScreenState> {
       ),
     );
 
-    request.fold(handleFailure, (characters) {
+    request.fold((r) => dispatchState(Error(message: r.message)), (characters) {
       reachMax = characters.length < page.size;
       this.characters.addAll(characters);
 
@@ -109,5 +116,9 @@ class HomeBloc extends IBloC<HomeEvent, ScreenState> {
       params: CharacterParams(id: event.id),
       type: GateType.to,
     );
+  }
+
+  Future<void> _handleReload(HomeReloadEvent event) async {
+    _handleOnReady(HomeReadyEvent());
   }
 }

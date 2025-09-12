@@ -57,6 +57,7 @@ class _HomeStableStateState extends State<HomeStableState> {
         child: Column(
           children: [
             SearchCharacterComponent(onSearch: onSearch),
+            VSpacer(),
             RowCharacterGenderComponent(
               gender: gender,
               onGenderPressed: onGenderChanged,

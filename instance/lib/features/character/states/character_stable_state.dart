@@ -18,6 +18,9 @@ class CharacterStableState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollViewCharacter(character: character);
+    return CustomScrollViewCharacter(
+      character: character,
+      onBackPressed: () => bloc.dispatchEvent(CharacterBackHomeEvent()),
+    );
   }
 }

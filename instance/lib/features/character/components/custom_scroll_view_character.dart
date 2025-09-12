@@ -5,8 +5,12 @@ import 'sliver_app_bar_character_component.dart';
 
 class CustomScrollViewCharacter extends StatelessWidget {
   final CharacterEntity character;
-
-  const CustomScrollViewCharacter({super.key, required this.character});
+  final Function() onBackPressed;
+  const CustomScrollViewCharacter({
+    super.key,
+    required this.character,
+    required this.onBackPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +20,7 @@ class CustomScrollViewCharacter extends StatelessWidget {
       slivers: [
         SliverAppBarCharacterComponent(
           tag: character.id.toString(),
+          onBackPressed: onBackPressed,
           url: character.image,
         ),
 
@@ -49,11 +54,11 @@ class CustomScrollViewCharacter extends StatelessWidget {
                 spacing: 8,
                 runSpacing: 8,
                 children: [
-                  _PillChip(
+                  CustomChip(
                     leading: const Icon(Icons.person_outline, size: 16),
                     label: '#${character.id}',
                   ),
-                  _PillChip(
+                  CustomChip(
                     leading: Icon(
                       Icons.transgender,
                       size: 16,
@@ -65,39 +70,36 @@ class CustomScrollViewCharacter extends StatelessWidget {
               ),
 
               VSpacer(),
-              _Section(
+
+              CharacterSection(
                 title: 'Identidade',
                 child: Wrap(
                   spacing: 12,
                   runSpacing: 12,
                   children: [
-                    _InfoTile(
+                    InfoTile(
                       icon: Icons.badge_outlined,
                       label: 'ID',
                       value: '#${character.id}',
                     ),
-                    _InfoTile(
+                    InfoTile(
                       icon: Icons.transgender,
                       label: 'Gênero',
                       value: character.gender.label,
                     ),
-                    _InfoTile(
+                    InfoTile(
                       icon: Icons.favorite_outlined,
                       label: 'Status',
                       value: character.status.label,
-                      valueColor: character.status
-                          .getUIData(context)
-                          .foreground,
-                      dotColor: character.status.getUIData(context).foreground,
                     ),
                     if (character.species.isNotEmpty)
-                      _InfoTile(
+                      InfoTile(
                         icon: Icons.pets_outlined,
                         label: 'Especie',
                         value: character.species,
                       ),
                     if (character.type.isNotEmpty)
-                      _InfoTile(
+                      InfoTile(
                         icon: Icons.category_outlined,
                         label: 'Tipo',
                         value: character.type,
@@ -106,17 +108,17 @@ class CustomScrollViewCharacter extends StatelessWidget {
                 ),
               ),
 
-              _Section(
+              CharacterSection(
                 title: 'Localizações',
                 child: Column(
                   children: [
-                    _NavTile(
+                    NavigationTile(
                       leadingIcon: Icons.public_outlined,
                       title: 'Origem',
                       subtitle: character.origin.name,
                     ),
                     Divider(),
-                    _NavTile(
+                    NavigationTile(
                       leadingIcon: Icons.place_outlined,
                       title: 'Última localização conhecida',
                       subtitle: character.location.name,
@@ -127,7 +129,7 @@ class CustomScrollViewCharacter extends StatelessWidget {
 
               FullSizeLayoutButton(
                 child: OutlinedButton.icon(
-                  onPressed: () {},
+                  onPressed: null,
                   icon: const Icon(Icons.ios_share),
                   label: const Text('Compartilhar'),
                 ),
@@ -140,11 +142,11 @@ class CustomScrollViewCharacter extends StatelessWidget {
   }
 }
 
-class _Section extends StatelessWidget {
+class CharacterSection extends StatelessWidget {
   final String title;
   final Widget child;
 
-  const _Section({required this.title, required this.child});
+  const CharacterSection({super.key, required this.title, required this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -172,19 +174,18 @@ class _Section extends StatelessWidget {
   }
 }
 
-class _InfoTile extends StatelessWidget {
+class InfoTile extends StatelessWidget {
   final IconData icon;
   final String label;
   final String value;
-  final Color? valueColor;
-  final Color? dotColor;
+  final Color? color;
 
-  const _InfoTile({
+  const InfoTile({
     required this.icon,
     required this.label,
     required this.value,
-    this.valueColor,
-    this.dotColor,
+    this.color,
+    super.key,
   });
 
   @override
@@ -219,13 +220,13 @@ class _InfoTile extends StatelessWidget {
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      if (dotColor != null)
+                      if (color != null)
                         Container(
                           width: 8,
                           height: 8,
                           margin: const EdgeInsets.only(right: 6),
                           decoration: BoxDecoration(
-                            color: dotColor,
+                            color: color,
                             shape: BoxShape.circle,
                           ),
                         ),
@@ -235,7 +236,7 @@ class _InfoTile extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           style: theme.textTheme.bodyMedium?.copyWith(
                             fontWeight: FontWeight.w600,
-                            color: valueColor ?? theme.colorScheme.onSurface,
+                            color: color ?? theme.colorScheme.onSurface,
                           ),
                         ),
                       ),
@@ -251,15 +252,16 @@ class _InfoTile extends StatelessWidget {
   }
 }
 
-class _NavTile extends StatelessWidget {
+class NavigationTile extends StatelessWidget {
   final IconData leadingIcon;
   final String title;
   final String subtitle;
 
-  const _NavTile({
+  const NavigationTile({
     required this.leadingIcon,
     required this.title,
     required this.subtitle,
+    super.key,
   });
 
   @override
@@ -304,18 +306,17 @@ class _NavTile extends StatelessWidget {
               ],
             ),
           ),
-          const Icon(Icons.chevron_right),
         ],
       ),
     );
   }
 }
 
-class _PillChip extends StatelessWidget {
+class CustomChip extends StatelessWidget {
   final Widget? leading;
   final String label;
 
-  const _PillChip({this.leading, required this.label});
+  const CustomChip({this.leading, required this.label, super.key});
 
   @override
   Widget build(BuildContext context) {

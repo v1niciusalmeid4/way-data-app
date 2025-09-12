@@ -26,8 +26,6 @@ class RouterBloc extends IBloC<RouterEvent, ScreenState> {
   Future<void> _handleReady(RouterReadyEvent event) async {
     dispatchState(Loading());
 
-    await Future.delayed(Duration(seconds: 2));
-
     homeGate.open(params: HomeParams(), type: GateType.offAll);
   }
 }

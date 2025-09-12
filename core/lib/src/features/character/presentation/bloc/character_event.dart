@@ -7,3 +7,7 @@ class CharacterReadyEvent extends CharacterEvent {
 
   CharacterReadyEvent({required this.id});
 }
+
+class CharacterBackHomeEvent extends CharacterEvent {}
+
+class CharacterReloadEvent extends CharacterEvent {}

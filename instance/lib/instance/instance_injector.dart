@@ -10,6 +10,5 @@ class InstanceInjector extends DependencyInjector {
     put<EnvConfig>(envConfig);
     CoreInjector().dependencies();
     AppInjector().dependencies();
-    ComponentsInjector().dependencies();
   }
 }

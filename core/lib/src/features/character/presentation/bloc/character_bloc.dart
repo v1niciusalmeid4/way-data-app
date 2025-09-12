@@ -36,20 +36,34 @@ class CharacterBloc extends IBloC<CharacterEvent, ScreenState> {
   @override
   void handleEvent(CharacterEvent event) {
     if (event is CharacterReadyEvent) {
-      _handleFetchCharacters(event);
+      _handleOnReady(event);
+    } else if (event is CharacterReloadEvent) {
+      _handleReload(event);
+    } else if (event is CharacterBackHomeEvent) {
+      _handleBack(event);
     }
   }
 
-  Future<void> _handleFetchCharacters(CharacterReadyEvent event) async {
+  Future<void> _handleOnReady(CharacterReadyEvent event) async {
+    dispatchState(Loading());
+
     final request = await findCharacterByIdUseCase(
       params: FindCharacterByIdParams(id: event.id.toString()),
     );
 
     request.fold(
-      handleFailure,
+      (r) => dispatchState(Error(message: r.message)),
       (character) => dispatchState(
         Stable(data: CharacterStableData(character: character)),
       ),
     );
+  }
+
+  Future<void> _handleReload(CharacterReloadEvent event) async {
+    _handleOnReady(CharacterReadyEvent(id: params.id));
+  }
+
+  Future<void> _handleBack(CharacterBackHomeEvent event) async {
+    pop();
   }
 }

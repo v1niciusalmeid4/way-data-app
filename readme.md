@@ -42,7 +42,7 @@ Sempre exibir os detalhes
 
 ## Antes de executar o projeto
 
-* Versáo utilizada no projeto Flutter: 3.35.3 - Dart 3.9.2
+* Versão utilizada no projeto Flutter: 3.35.3 - Dart 3.9.2
 * Verifique `flutter --version` e `flutter doctor`.
 * Inicie um device/emulador(iOS | Android).
 * Garanta que executou `flutter pub get` em **cada módulo** na **ordem correta**.
@@ -62,33 +62,28 @@ Sempre exibir os detalhes
 cd morphling && flutter clean && flutter pub get && cd ..
 cd core      && flutter clean && flutter pub get && cd ..
 cd instance  && flutter clean && flutter pub get
-Execute em modo desenvolvimento ou produção
-(entrypoint main_dev.dart | main_prd.dart)
-Sempre exibir os detalhes
 
 cd instance
 flutter run -t lib/main.dart
 
-Decisões técnicas
-BLoC via Streams
+# Decisões técnicas
+* BLoC via Streams
 Por quê? Controle fino de ciclo de vida, baixo overhead e previsibilidade.
 Como? BLoCs expõem streams de estado (loading / stable / error) e recebem events/intents da UI.
-Benefícios: Testabilidade e separação orquestração (BLoC) × apresentação (Widgets).
-Injeção de Dependências com getIt
+* Benefícios: Testabilidade e separação orquestração (BLoC) × apresentação (Widgets).
+* Injeção de Dependências com getIt
 Por quê? Desacoplamento e troca simples de implementações (mocks vs. reais).
 Como? Registrations por módulo/feature (ex.: AppInjector, FeatureInjector) com lazySingleton.
-Benefícios: Inicialização controlada e pontos únicos de configuração.
-Modularização morphling / core / instance
+* Benefícios: Inicialização controlada e pontos únicos de configuração.
+* Modularização morphling / core / instance
 Por quê? Reuso, escalabilidade e builds previsíveis.
 Como?
 core mantém contratos/infra compartilhados e agnósticos à UI
 instance orquestra DI e UI (composition root)
 morphling consolida as padronizações do monorepo
-Benefícios: Menor acoplamento e organização por responsabilidade.
-Solução de problemas
+* Benefícios: Menor acoplamento e organização por responsabilidade.
+* Solução de problemas
 Imports vermelhos / dependências não resolvidas
 → Rode flutter clean && flutter pub get em cada módulo e respeite a ordem.
 Dispositivo não aparece
 → flutter devices e inicie um emulador/simulador.
-Web não inicia
-→ flutter config --enable-web e flutter run -d chrome.

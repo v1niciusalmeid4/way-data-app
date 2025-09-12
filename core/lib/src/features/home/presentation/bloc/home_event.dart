@@ -23,3 +23,5 @@ class HomeOpenCharacterEvent extends HomeEvent {
 
   HomeOpenCharacterEvent({required this.id});
 }
+
+class HomeReloadEvent extends HomeEvent {}

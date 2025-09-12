@@ -17,36 +17,32 @@ class RowCharacterStatusComponent extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         spacing: 5.0,
-        children:
-            CharacterStatus.values
-                .map(
-                  (e) => GestureDetector(
-                    onTap: () => onStatusPressed(e),
-                    child: Chip(
-                      label: Text(e.label),
-                      backgroundColor: e == status
-                          ? null
-                          : Theme.of(
-                              context,
-                            ).colorScheme.inversePrimary.withValues(alpha: .10),
-                    ),
-                  ),
-                )
-                .toList()
-              ..insert(
-                0,
-                GestureDetector(
-                  onTap: () => onStatusPressed(null),
-                  child: Chip(
-                    label: Text('Todos'),
-                    backgroundColor: status == null
-                        ? null
-                        : Theme.of(
-                            context,
-                          ).colorScheme.inversePrimary.withValues(alpha: .10),
-                  ),
-                ),
+        children: [
+          GestureDetector(
+            onTap: () => onStatusPressed(null),
+            child: Chip(
+              label: Text('Todos'),
+              backgroundColor: status == null
+                  ? null
+                  : Theme.of(
+                      context,
+                    ).colorScheme.inversePrimary.withValues(alpha: .10),
+            ),
+          ),
+          ...CharacterStatus.values.map(
+            (e) => GestureDetector(
+              onTap: () => onStatusPressed(e),
+              child: Chip(
+                label: Text(e.label),
+                backgroundColor: e == status
+                    ? null
+                    : Theme.of(
+                        context,
+                      ).colorScheme.inversePrimary.withValues(alpha: .10),
               ),
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
 class SliverAppBarCharacterComponent extends StatelessWidget {
+  final Function() onBackPressed;
   final String tag;
   final String url;
 
   const SliverAppBarCharacterComponent({
     required this.tag,
     required this.url,
+    required this.onBackPressed,
     super.key,
   });
 
@@ -20,14 +22,8 @@ class SliverAppBarCharacterComponent extends StatelessWidget {
       expandedHeight: 320,
       leading: IconButton(
         icon: const Icon(Icons.arrow_back),
-        onPressed: () => Navigator.maybePop(context),
+        onPressed: onBackPressed,
       ),
-      actions: [
-        IconButton(
-          icon: const Icon(Icons.color_lens_outlined),
-          onPressed: () {},
-        ),
-      ],
       flexibleSpace: FlexibleSpaceBar(
         collapseMode: CollapseMode.parallax,
         titlePadding: const EdgeInsets.only(left: 56, bottom: 12, right: 16),

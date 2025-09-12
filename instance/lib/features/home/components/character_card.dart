@@ -14,14 +14,9 @@ class CharacterCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final statusStyle = theme.textTheme.labelMedium?.copyWith(
-      color: character.status.getUIData(context).foreground,
-      fontWeight: FontWeight.w600,
-    );
 
-    return InkWell(
+    return GestureDetector(
       onTap: () => onCharacterPressed(character.id),
-      borderRadius: BorderRadius.circular(16),
       child: Card(
         margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 12),
         elevation: 0,
@@ -78,7 +73,10 @@ class CharacterCard extends StatelessWidget {
                         foreground: character.status
                             .getUIData(context)
                             .foreground,
-                        style: statusStyle,
+                        style: theme.textTheme.labelMedium?.copyWith(
+                          color: character.status.getUIData(context).foreground,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                       Text('•', style: theme.textTheme.bodySmall),
                       Text(
