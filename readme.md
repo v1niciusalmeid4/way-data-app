@@ -1,33 +1,94 @@
-# Como rodar (passo a passo)
-git clone https://github.com/v1niciusalmeid4/way-data-app.git
+# Way Data App — Monorepo Flutter
 
-# Instale dependências na ordem correta
-  A ordem importa porque os módulos se referenciam entre si.
+Aplicação Flutter em **monorepo** composta por `morphling`, `core` e `instance`.
+Foco em arquitetura modular, BLoC via Streams e DI com `getIt`.
+
+## Nota
+
+Para facilitar o desenvolvimento e a colaboração, o projeto está organizado em um **monorepo** com todos os módulos necessários. A proposta é **separar responsabilidades** e permitir **evolução independente** das partes, mantendo um fluxo de trabalho previsível e escalável.
+
+---
+
+## Contemplações
+
+* **Multi-modular escalonável**
+* **BLoC via Streams** (estados `loading / stable / error / empty`)
+* **Injeção de dependências** com `getIt`
+* **Boas práticas de Git** (commits atômicos & convencionais)
+
+---
+
+## Arquitetura Multi-modular
+
+A arquitetura favorece **reuso**, **testabilidade** e **baixo acoplamento**.
+
+* **morphling** — Base do monorepo: contratos/abstrações, helpers, padronizações (logs, guards, tipos base).
+* **core** — Infraestrutura e domínio compartilhado: HTTP, gates (contratos), paginação, extensions, env, **repos/datasources** e **BLoCs das features**.
+* **instance** — App executável: UI, rotas, tema e **composition root/DI** (onde tudo é montado e injetado).
+
+/
+├─ morphling/ # base (contratos, abstrações, helpers, padronizações)
+├─ core/ # domínio + infra compartilhada (HTTP, gates, pagination, env, BLoCs)
+└─ instance/ # app (UI, rotas, theme, composition root/DI)
+Sempre exibir os detalhes
+
+---
+
+## Configurações necessárias para execução do projeto
+
+> iOS/CocoaPods (Apple Silicon): se necessário, rode `arch --x86_64 pod install --repo-update` dentro do diretório `ios/` do app.
+
+---
+
+## Antes de executar o projeto
+
+* Versáo utilizada no projeto Flutter: 3.35.3 - Dart 3.9.2
+* Verifique `flutter --version` e `flutter doctor`.
+* Inicie um device/emulador(iOS | Android).
+* Garanta que executou `flutter pub get` em **cada módulo** na **ordem correta**.
+
+---
+
+## Como rodar (passo a passo)
+
+* **Clone o repositório**
+  ```bash
+  git clone https://github.com/v1niciusalmeid4/way-data-app.git
+  cd way-data-app
+Instale dependências na ordem correta
+(A ordem importa porque os módulos se referenciam entre si.)
+Sempre exibir os detalhes
 
 cd morphling && flutter clean && flutter pub get && cd ..
 cd core      && flutter clean && flutter pub get && cd ..
 cd instance  && flutter clean && flutter pub get
+Execute em modo desenvolvimento ou produção
+(entrypoint main_dev.dart | main_prd.dart)
+Sempre exibir os detalhes
 
-# Execute em modo desenvolvimento ou prod (entrypoint main_dev.dart | main_prd.dart)
 cd instance
-flutter run -t lib/main_dev.dart | flutter run -t lib/main_prd.dart 
+flutter run -t lib/main.dart
 
-# Estrutura do projeto
-/
-├─ morphling/   # base do monorepo (contratos, abstrações, helpers, padronizações)
-├─ core/        # domínio e componentes compartilháveis (entidades, casos de uso,
-│               # serviços, widgets reutilizáveis, etc.)
-└─ instance/    # app executável (UI, rotas, theme, composition root)
-
- # Decisões técnicas
-
- # BLoC via Streams
- * Por quê? Controle fino do ciclo de vida, baixo overhead, previsibilidade do fluxo, fácil composição entre camadas.
-   Como? BLoCs expõem streams de estado (ex.: loading / stable / error) e recebem events/intents da UI.
- * Benefícios principais: Alta testabilidade (stubs/mocks em upstream). Separa orquestração (BLoC) de apresentação (Widgets).
- * Injeção de Dependências com getIt Por quê? Desacoplamento entre camadas e troca simples de implementações (ex.: mocks em testes).
-   Como? Registrations por módulo/feature (ex.: AppInjector, FeatureInjector), com lazySingleton para serviços.
- * Benefícios: Inicialização controlada, pontos únicos de configuração e código mais limpo. Modularização morphling / core / instance
-   Por quê? Reuso, escalabilidade e builds previsíveis. Como? core mantém tudo que é compartilhável e agnóstico ao app final.
-   instance orquestra DI e UI final (composition root). morphling estabelece padrões do monorepo.
- * Benefícios: Menor acoplamento, organização por responsabilidade e facilidade de evolução.
+Decisões técnicas
+BLoC via Streams
+Por quê? Controle fino de ciclo de vida, baixo overhead e previsibilidade.
+Como? BLoCs expõem streams de estado (loading / stable / error) e recebem events/intents da UI.
+Benefícios: Testabilidade e separação orquestração (BLoC) × apresentação (Widgets).
+Injeção de Dependências com getIt
+Por quê? Desacoplamento e troca simples de implementações (mocks vs. reais).
+Como? Registrations por módulo/feature (ex.: AppInjector, FeatureInjector) com lazySingleton.
+Benefícios: Inicialização controlada e pontos únicos de configuração.
+Modularização morphling / core / instance
+Por quê? Reuso, escalabilidade e builds previsíveis.
+Como?
+core mantém contratos/infra compartilhados e agnósticos à UI
+instance orquestra DI e UI (composition root)
+morphling consolida as padronizações do monorepo
+Benefícios: Menor acoplamento e organização por responsabilidade.
+Solução de problemas
+Imports vermelhos / dependências não resolvidas
+→ Rode flutter clean && flutter pub get em cada módulo e respeite a ordem.
+Dispositivo não aparece
+→ flutter devices e inicie um emulador/simulador.
+Web não inicia
+→ flutter config --enable-web e flutter run -d chrome.
