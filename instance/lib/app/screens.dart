@@ -8,4 +8,9 @@ final screens = <Screen>[
     page: (context) => RouterPage(),
     injector: IRouterInjector(),
   ),
+  Screen(
+    name: HomeBloc.route,
+    page: (context) => HomePage(),
+    injector: HomeInjector(),
+  ),
 ];

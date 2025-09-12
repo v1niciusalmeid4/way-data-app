@@ -38,6 +38,7 @@ class HttpApiImpl implements HttpRemote {
       );
 
       response.request = updatedRequest;
+
       return response;
     } on RemoteException {
       rethrow;
@@ -110,11 +111,15 @@ class HttpApiImpl implements HttpRemote {
       throw RemoteException(message: 'Falha na API');
     }
 
+    final status = HttpStatus(
+      code: response.statusCode,
+      message: response.reasonPhrase ?? '',
+    );
+
     final responseBody = utf8.decode(response.bodyBytes);
+
     final map = jsonDecode(responseBody);
 
-    log('Body: $map');
-
-    return HttpResponse<T, R>.fromMap(map, decoder);
+    return HttpResponse<T, R>.fromMap(map, decoder, status);
   }
 }

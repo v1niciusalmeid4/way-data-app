@@ -5,6 +5,7 @@ class CoreInjector extends DependencyInjector {
     MorphlingInjector(),
     GateInjector(),
     GatesInjector(),
+    HttpInjector(),
   ];
 
   // For test pourposes

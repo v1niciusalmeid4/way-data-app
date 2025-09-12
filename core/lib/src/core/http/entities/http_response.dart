@@ -1,10 +1,4 @@
-enum HttpMethod {
-  post,
-  get,
-  put,
-  delete,
-  patch,
-}
+enum HttpMethod { post, get, put, delete, patch }
 
 class HttpRequest<T> {
   final String url;
@@ -42,90 +36,45 @@ class HttpStatus {
   final int code;
   final String message;
 
-  HttpStatus({
-    required this.code,
-    required this.message,
-  });
-
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'code': code,
-      'message': message,
-    };
-  }
-
-  factory HttpStatus.fromMap(Map<String, dynamic> map) {
-    return HttpStatus(
-      code: map['code'] as int,
-      message: map['message'] as String,
-    );
-  }
+  HttpStatus({required this.code, required this.message});
 }
 
 class HttpResponse<T, R> {
   final R? data;
-  final List<String> errors;
   final HttpStatus status;
-
-  final int? totalPages;
-  final int? totalElements;
-
   HttpRequest? request;
 
-  HttpResponse({
-    required this.data,
-    required this.errors,
-    required this.status,
-    this.totalPages,
-    this.totalElements,
-    this.request,
-  });
+  HttpResponse({required this.data, required this.status, this.request});
 
-  bool get isSuccess => status.message == 'success';
-  String get errorMessage => errors.join('\n');
+  bool get isSuccess => status.code >= 200 && status.code < 300;
 
   Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'data': data,
-      'errors': errors,
-      'status': status.toMap(),
-    };
+    return <String, dynamic>{'data': data, 'status': status};
   }
 
   factory HttpResponse.fromMap(
-    Map<String, dynamic> map,
+    dynamic map,
     T Function(Map<String, dynamic>)? decoder,
+    HttpStatus status,
   ) {
-    var data = map['data'];
-
     if (decoder == null) {
-      return HttpResponse<T, R>(
-        data: data as R,
-        errors: List.from(map['errors'] ?? []),
-        status: HttpStatus.fromMap(map['status']),
-      );
+      return HttpResponse<T, R>(data: map, status: status);
     }
 
-    if (data is List) {
-      data = data.map<T>((e) => decoder(e)).toList();
+    if (map is List) {
+      map = map.map<T>((e) => decoder(e)).toList();
     }
 
-    if (data is Map && data.isNotEmpty) {
-      data = decoder(Map.from(data));
+    if (map is Map && map.isNotEmpty) {
+      map = decoder(Map.from(map));
     }
 
     try {
-      data = data as R;
+      map = map as R;
     } on TypeError {
-      data = null;
+      map = null;
     }
 
-    return HttpResponse<T, R>(
-      data: data as R?,
-      errors: List.from(map['errors'] ?? []),
-      status: HttpStatus.fromMap(map['status']),
-      totalPages: map['totalPages'] as int?,
-      totalElements: map['totalElements'] as int?,
-    );
+    return HttpResponse<T, R>(data: map as R?, status: status);
   }
 }

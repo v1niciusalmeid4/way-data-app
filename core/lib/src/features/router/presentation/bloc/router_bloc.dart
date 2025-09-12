@@ -5,9 +5,10 @@ part 'router_event.dart';
 class RouterBloc extends IBloC<RouterEvent, ScreenState> {
   static const String route = '/';
 
-  RouterBloc() : super(initialState: Loading());
+  RouterBloc({required this.homeGate}) : super(initialState: Loading());
 
   // gates
+  final HomeGate homeGate;
 
   @override
   void onReady() {
@@ -24,5 +25,9 @@ class RouterBloc extends IBloC<RouterEvent, ScreenState> {
 
   Future<void> _handleReady(RouterReadyEvent event) async {
     dispatchState(Loading());
+
+    await Future.delayed(Duration(seconds: 2));
+
+    homeGate.open(params: HomeParams(), type: GateType.offAll);
   }
 }
