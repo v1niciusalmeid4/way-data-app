@@ -20,8 +20,19 @@ class CharacterDataSourceImpl implements CharacterDataSource {
     final queryParameters = {
       'page': params.page.toString(),
       'size': params.size.toString(),
-      'name': params.query,
     };
+
+    if (params.query.isNotEmpty) {
+      queryParameters['name'] = params.query;
+    }
+
+    if (params.gender != null) {
+      queryParameters['gender'] = params.gender!.key;
+    }
+
+    if (params.status != null) {
+      queryParameters['status'] = params.status!.key;
+    }
 
     final uri = Uri(path: endpoint, queryParameters: queryParameters);
 

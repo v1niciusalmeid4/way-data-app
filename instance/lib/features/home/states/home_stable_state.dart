@@ -31,6 +31,24 @@ class _HomeStableStateState extends State<HomeStableState> {
     bloc.dispatchEvent(HomeReadyEvent(query: query));
   }
 
+  void onGenderChanged(CharacterGender? gender) {
+    this.gender = gender;
+    setState(() {});
+
+    bloc.dispatchEvent(
+      HomeReadyEvent(query: query, gender: gender, status: status),
+    );
+  }
+
+  void onStatusChanged(CharacterStatus? status) {
+    this.status = status;
+    setState(() {});
+
+    bloc.dispatchEvent(
+      HomeReadyEvent(query: query, gender: gender, status: status),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -41,21 +59,26 @@ class _HomeStableStateState extends State<HomeStableState> {
             SearchCharacterComponent(onSearch: onSearch),
             RowCharacterGenderComponent(
               gender: gender,
-              onGenderPressed: (gender) {},
+              onGenderPressed: onGenderChanged,
             ),
             RowCharacterStatusComponent(
               status: status,
-              onStatusPressed: (status) {},
+              onStatusPressed: onStatusChanged,
             ),
-
             Expanded(
               child: ListCharacters(
                 characters: characters,
                 reachMax: reachMax,
-                onFetch: () =>
-                    bloc.dispatchEvent(HomeLoadMoreEvent(query: query)),
-                onPullRefresh: () =>
-                    bloc.dispatchEvent(HomeReadyEvent(query: query)),
+                onFetch: () => bloc.dispatchEvent(
+                  HomeLoadMoreEvent(
+                    query: query,
+                    gender: gender,
+                    status: status,
+                  ),
+                ),
+                onPullRefresh: () => bloc.dispatchEvent(
+                  HomeReadyEvent(query: query, gender: gender, status: status),
+                ),
                 onCharacterPressed: () {},
               ),
             ),

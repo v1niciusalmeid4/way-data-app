@@ -4,12 +4,16 @@ abstract class HomeEvent {}
 
 class HomeReadyEvent extends HomeEvent {
   final String query;
+  final CharacterGender? gender;
+  final CharacterStatus? status;
 
-  HomeReadyEvent({this.query = ''});
+  HomeReadyEvent({this.query = '', this.gender, this.status});
 }
 
 class HomeLoadMoreEvent extends HomeEvent {
   final String query;
+  final CharacterGender? gender;
+  final CharacterStatus? status;
 
-  HomeLoadMoreEvent({this.query = ''});
+  HomeLoadMoreEvent({this.query = '', this.gender, this.status});
 }

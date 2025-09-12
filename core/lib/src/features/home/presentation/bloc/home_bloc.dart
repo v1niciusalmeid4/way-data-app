@@ -57,6 +57,8 @@ class HomeBloc extends IBloC<HomeEvent, ScreenState> {
         page: page.page,
         size: page.size,
         query: event.query,
+        gender: event.gender,
+        status: event.status,
       ),
     );
 
@@ -82,6 +84,8 @@ class HomeBloc extends IBloC<HomeEvent, ScreenState> {
         page: page.page,
         size: page.size,
         query: event.query,
+        gender: event.gender,
+        status: event.status,
       ),
     );
 

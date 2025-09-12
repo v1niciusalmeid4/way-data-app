@@ -23,10 +23,14 @@ class FindAllCharacterParams {
   final int page;
   final int size;
   final String query;
+  final CharacterGender? gender;
+  final CharacterStatus? status;
 
   FindAllCharacterParams({
     required this.page,
     required this.size,
     required this.query,
+    required this.gender,
+    required this.status,
   });
 }
