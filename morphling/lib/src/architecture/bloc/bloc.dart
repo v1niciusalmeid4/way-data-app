@@ -15,6 +15,9 @@ abstract class IBloC<Event, ScreenState> with HudMixin {
   IBloC({
     ScreenState? initialState,
   }) {
+    _event = StreamController<Event>.broadcast();
+    _state = StreamController<ScreenState>.broadcast();
+
     _navigatorService = ContainerInjector().find();
 
     if (initialState != null) {
@@ -41,9 +44,6 @@ abstract class IBloC<Event, ScreenState> with HudMixin {
   /// cria os [StreamController]s e
   /// inicializa o listener escutando os eventos [@handleEvent]
   void onInit() {
-    _state = StreamController<ScreenState>.broadcast();
-    _event = StreamController<Event>.broadcast();
-
     event.listen(handleEvent);
   }
 
@@ -62,8 +62,8 @@ abstract class IBloC<Event, ScreenState> with HudMixin {
     showFailure(failure.message);
   }
 
-  void dispatchEvent(Event event) => dispatchEvent(event);
+  void dispatchEvent(Event event) => _event.add(event);
 
   @protected
-  void dispatchState(ScreenState state) => dispatchState(state);
+  void dispatchState(ScreenState state) => _state.add(state);
 }
