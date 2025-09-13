@@ -28,10 +28,16 @@ class _HomeStableStateState extends State<HomeStableState> {
   void onSearch(String query) {
     this.query = query;
 
-    bloc.dispatchEvent(HomeReadyEvent(query: query));
+    bloc.dispatchEvent(
+      HomeReadyEvent(query: query, gender: gender, status: status),
+    );
   }
 
   void onGenderChanged(CharacterGender? gender) {
+    if (this.gender == gender) {
+      return;
+    }
+
     this.gender = gender;
     setState(() {});
 
@@ -41,6 +47,10 @@ class _HomeStableStateState extends State<HomeStableState> {
   }
 
   void onStatusChanged(CharacterStatus? status) {
+    if (this.status == status) {
+      return;
+    }
+
     this.status = status;
     setState(() {});
 
