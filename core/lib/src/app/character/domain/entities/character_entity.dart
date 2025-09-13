@@ -5,8 +5,8 @@ class CharacterEntity {
   final String name;
   final CharacterStatus status;
   final CharacterGender gender;
-  final LocationEntity location;
-  final LocationEntity origin;
+  final CharacterLocationEntity location;
+  final CharacterLocationEntity origin;
   final String species;
   final String type;
   final String image;

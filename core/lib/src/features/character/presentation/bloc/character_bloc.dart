@@ -13,8 +13,13 @@ class CharacterBloc extends IBloC<CharacterEvent, ScreenState> {
 
   late CharacterParams params;
 
-  CharacterBloc({required this.findCharacterByIdUseCase})
-    : super(initialState: Loading());
+  CharacterBloc({
+    required this.findCharacterByIdUseCase,
+    required this.locationGate,
+  }) : super(initialState: Loading());
+
+  // gates
+  final LocationGate locationGate;
 
   // usecases
   final FindCharacterByIdUseCase findCharacterByIdUseCase;
@@ -41,6 +46,8 @@ class CharacterBloc extends IBloC<CharacterEvent, ScreenState> {
       _handleReload(event);
     } else if (event is CharacterBackHomeEvent) {
       _handleBack(event);
+    } else if (event is CharacterOpenLocationEvent) {
+      _handleOpenLocation(event);
     }
   }
 
@@ -56,6 +63,13 @@ class CharacterBloc extends IBloC<CharacterEvent, ScreenState> {
       (character) => dispatchState(
         Stable(data: CharacterStableData(character: character)),
       ),
+    );
+  }
+
+  Future<void> _handleOpenLocation(CharacterOpenLocationEvent event) async {
+    locationGate.open(
+      params: LocationParams(name: event.name),
+      type: GateType.to,
     );
   }
 

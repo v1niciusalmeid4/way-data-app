@@ -1,7 +1,10 @@
 import 'package:core/app_way_data_core.dart';
 
 class AppInjector extends DependencyInjector {
-  final List<DependencyInjector> injectors = [CharacterInjector()];
+  final List<DependencyInjector> injectors = [
+    CharacterInjector(),
+    LocationInjector(),
+  ];
 
   // For test pourposes
   void inject(DependencyInjector injector) {

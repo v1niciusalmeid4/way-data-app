@@ -18,4 +18,9 @@ final screens = <Screen>[
     page: (context) => CharacterPage(),
     injector: ICharacterInjector(),
   ),
+  Screen(
+    name: LocationBloc.route,
+    page: (context) => LocationPage(),
+    injector: ILocationInjector(),
+  ),
 ];

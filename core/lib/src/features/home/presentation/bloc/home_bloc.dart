@@ -24,15 +24,8 @@ class HomeBloc extends IBloC<HomeEvent, ScreenState> {
   // state variables
   List<CharacterEntity> characters = [];
 
-  late Pageable page;
+  Pageable page = Pageable();
   bool reachMax = false;
-
-  @override
-  void onInit() {
-    page = Pageable();
-
-    super.onInit();
-  }
 
   @override
   void onReady() {
@@ -68,18 +61,18 @@ class HomeBloc extends IBloC<HomeEvent, ScreenState> {
     );
 
     request.fold((r) => dispatchState(Error(message: r.message)), (characters) {
-      if (characters.isEmpty) {
-        dispatchState(Empty());
-        return;
-      }
-
       reachMax = characters.length < page.size;
       this.characters = characters;
 
       dispatchState(
-        Stable(
-          data: HomeStableData(characters: this.characters, reachMax: reachMax),
-        ),
+        characters.isEmpty
+            ? Empty()
+            : Stable(
+                data: HomeStableData(
+                  characters: this.characters,
+                  reachMax: reachMax,
+                ),
+              ),
       );
     });
   }

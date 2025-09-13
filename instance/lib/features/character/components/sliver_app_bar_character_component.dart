@@ -17,9 +17,7 @@ class SliverAppBarCharacterComponent extends StatelessWidget {
     final theme = Theme.of(context);
 
     return SliverAppBar(
-      pinned: true,
-      stretch: true,
-      expandedHeight: 320,
+      expandedHeight: 420,
       leading: IconButton(
         icon: const Icon(Icons.arrow_back),
         onPressed: onBackPressed,

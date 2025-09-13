@@ -4,7 +4,8 @@ class ICharacterInjector extends DependencyInjector {
   @override
   void dependencies() {
     lazyPut<CharacterBloc>(
-      () => CharacterBloc(findCharacterByIdUseCase: find()),
+      () =>
+          CharacterBloc(findCharacterByIdUseCase: find(), locationGate: find()),
     );
   }
 }

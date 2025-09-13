@@ -6,5 +6,6 @@ class GatesInjector extends DependencyInjector {
     put<RouterGate>(RouterGate(gate: find()));
     put<HomeGate>(HomeGate(gate: find()));
     put<CharacterGate>(CharacterGate(gate: find()));
+    put<LocationGate>(LocationGate(gate: find()));
   }
 }

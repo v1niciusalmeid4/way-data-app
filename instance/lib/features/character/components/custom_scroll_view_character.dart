@@ -6,10 +6,13 @@ import 'sliver_app_bar_character_component.dart';
 class CustomScrollViewCharacter extends StatelessWidget {
   final CharacterEntity character;
   final Function() onBackPressed;
+  final Function(String) onNavigationPressed;
+
   const CustomScrollViewCharacter({
     super.key,
     required this.character,
     required this.onBackPressed,
+    required this.onNavigationPressed,
   });
 
   @override
@@ -54,17 +57,60 @@ class CustomScrollViewCharacter extends StatelessWidget {
                 spacing: 8,
                 runSpacing: 8,
                 children: [
-                  CustomChip(
-                    leading: const Icon(Icons.person_outline, size: 16),
-                    label: '#${character.id}',
-                  ),
-                  CustomChip(
-                    leading: Icon(
-                      Icons.transgender,
-                      size: 16,
-                      color: theme.colorScheme.primary,
+                  Container(
+                    height: 32,
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      color: theme.colorScheme.surfaceContainerHighest
+                          .withValues(alpha: .4),
                     ),
-                    label: character.gender.label,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconTheme(
+                          data: IconThemeData(color: theme.colorScheme.primary),
+                          child: Icon(Icons.person_outline, size: 16),
+                        ),
+                        const SizedBox(width: 6),
+                        Text(
+                          '#${character.id}',
+                          style: theme.textTheme.labelMedium?.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  Container(
+                    height: 32,
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      color: theme.colorScheme.surfaceContainerHighest
+                          .withValues(alpha: .4),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconTheme(
+                          data: IconThemeData(color: theme.colorScheme.primary),
+                          child: Icon(
+                            Icons.transgender,
+                            size: 16,
+                            color: theme.colorScheme.primary,
+                          ),
+                        ),
+                        const SizedBox(width: 6),
+                        Text(
+                          character.gender.label,
+                          style: theme.textTheme.labelMedium?.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -116,12 +162,16 @@ class CustomScrollViewCharacter extends StatelessWidget {
                       leadingIcon: Icons.public_outlined,
                       title: 'Origem',
                       subtitle: character.origin.name,
+                      onNavigationPressed: () =>
+                          onNavigationPressed(character.origin.name),
                     ),
                     Divider(),
                     NavigationTile(
                       leadingIcon: Icons.place_outlined,
                       title: 'Última localização conhecida',
                       subtitle: character.location.name,
+                      onNavigationPressed: () =>
+                          onNavigationPressed(character.location.name),
                     ),
                   ],
                 ),
@@ -256,95 +306,67 @@ class NavigationTile extends StatelessWidget {
   final IconData leadingIcon;
   final String title;
   final String subtitle;
+  final Function() onNavigationPressed;
 
   const NavigationTile({
     required this.leadingIcon,
     required this.title,
     required this.subtitle,
+    required this.onNavigationPressed,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Padding(
-      padding: const EdgeInsets.all(8),
-      child: Row(
-        children: [
-          Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              color: theme.colorScheme.primaryContainer,
-              borderRadius: BorderRadius.circular(10),
+    return InkWell(
+      onTap: onNavigationPressed,
+      child: Padding(
+        padding: const EdgeInsets.all(8),
+        child: Row(
+          children: [
+            Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: theme.colorScheme.primaryContainer,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              alignment: Alignment.center,
+              child: Icon(
+                leadingIcon,
+                size: 22,
+                color: theme.colorScheme.primary,
+              ),
             ),
-            alignment: Alignment.center,
-            child: Icon(
-              leadingIcon,
-              size: 22,
-              color: theme.colorScheme.primary,
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w700,
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  subtitle,
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: theme.colorScheme.onSurfaceVariant,
+                  const SizedBox(height: 2),
+                  Text(
+                    subtitle,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class CustomChip extends StatelessWidget {
-  final Widget? leading;
-  final String label;
-
-  const CustomChip({this.leading, required this.label, super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Container(
-      height: 32,
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        color: theme.colorScheme.surfaceContainerHighest.withValues(alpha: .4),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (leading != null) ...[
-            IconTheme(
-              data: IconThemeData(color: theme.colorScheme.primary),
-              child: leading!,
+            Icon(
+              Icons.chevron_right,
+              size: 24,
+              color: theme.colorScheme.onSurfaceVariant,
             ),
-            const SizedBox(width: 6),
           ],
-          Text(
-            label,
-            style: theme.textTheme.labelMedium?.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

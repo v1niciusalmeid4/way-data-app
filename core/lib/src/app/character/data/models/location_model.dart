@@ -1,10 +1,10 @@
 import 'package:core/app_way_data_core.dart';
 
-class LocationModel extends LocationEntity {
-  LocationModel({required super.name, required super.url});
+class CharacterLocationModel extends CharacterLocationEntity {
+  CharacterLocationModel({required super.name, required super.url});
 
-  factory LocationModel.fromMap(dynamic map) {
-    return LocationModel(
+  factory CharacterLocationModel.fromMap(dynamic map) {
+    return CharacterLocationModel(
       name: map['name'] as String,
       url: map['url'] as String,
     );
