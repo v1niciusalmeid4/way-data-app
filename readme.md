@@ -1,7 +1,12 @@
 # Way Data App — Monorepo Flutter
 
+<p align="center">
+  <img src="instance/assets/home.png" alt="Tela inicial A" width="45%" />
+  <img src="instance/assets/character.png" alt="Tela inicial B" width="45%" />
+</p>
+
 Aplicação Flutter em **monorepo** composta por `morphling`, `core` e `instance`.
-Foco em arquitetura modular, BLoC via Streams e DI com `getIt`.
+Foco em arquitetura limpa, BLoC via Streams e DI com `getIt`.
 
 ## Nota
 
@@ -11,14 +16,14 @@ Para facilitar o desenvolvimento e a colaboração, o projeto está organizado e
 
 ## Contemplações
 
-* **Multi-modular escalonável**
+* **Clean Architecture escalonável**
 * **BLoC via Streams** (estados `loading / stable / error / empty`)
 * **Injeção de dependências** com `getIt`
 * **Boas práticas de Git** (commits atômicos & convencionais)
 
 ---
 
-## Arquitetura Multi-modular
+## Arquitetura Clean Architecture
 
 A arquitetura favorece **reuso**, **testabilidade** e **baixo acoplamento**.
 
