@@ -1,9 +1,9 @@
 # Way Data App — Monorepo Flutter
 
 <p align="center">
-  <img src="instance/assets/screens/home.png" alt="Tela inicial A" width="33.3%" />
-  <img src="instance/assets/screens/character.png" alt="Tela inicial B" width="33.3%" />
-  <img src="instance/assets/screens/localization.png.png" alt="Tela inicial A" width="33.3%" />
+  <img src="instance/assets/screens/home.png" alt="Home" width="25%" />
+  <img src="instance/assets/screens/character.png" alt="Character" width="25%" />
+  <img src="instance/assets/screens/localization.png" alt="Localização" width="25%" />
 
 </p>
 
