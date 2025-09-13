@@ -1,8 +1,10 @@
 # Way Data App — Monorepo Flutter
 
 <p align="center">
-  <img src="instance/assets/home.png" alt="Tela inicial A" width="45%" />
-  <img src="instance/assets/character.png" alt="Tela inicial B" width="45%" />
+  <img src="instance/assets/screens/home.png" alt="Tela inicial A" width="33.3%" />
+  <img src="instance/assets/screens/character.png" alt="Tela inicial B" width="33.3%" />
+  <img src="instance/assets/screens/localization.png.png" alt="Tela inicial A" width="33.3%" />
+
 </p>
 
 Aplicação Flutter em **monorepo** composta por `morphling`, `core` e `instance`.
